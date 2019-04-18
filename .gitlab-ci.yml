@@ -1,0 +1,115 @@
+image: node:10.5.0
+
+variables:
+  WATCHDOG_VERSION: 10
+  RUBIK_VERSION: 1.0.1
+  NEXUS_REPOSITORY: 'deploy-artifacts'
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - install
+#   - linting
+  - package
+  - snapshot
+  - release-artifact
+
+before_script:
+  - |
+    export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
+  - export https_proxy=http://193.136.128.7:3128 no_proxy=".tecnico.ulisboa.pt"
+  - curl "http://nexus.smeg.tecnico.ulisboa.pt/repository/test-repo/watchdog_${WATCHDOG_VERSION}_linux_amd64.tar.gz" -o /tmp/watchdog.tar.gz
+  - tar -xvf /tmp/watchdog.tar.gz -C /usr/bin
+  - chmod +x /usr/bin/watchdog
+
+install-dependencies:
+  stage: install
+  script:
+    - rm -rf ~/.npmrc
+    - export https_proxy=http://193.136.128.7:3128
+    - npm install -g npm-cli-adduser
+    - npm config set registry $NEXUS_BASE_URL/repository/npm-dsi/
+    - npm-cli-adduser -r $NEXUS_BASE_URL/repository/npm/ -u $NEXUS_USERNAME -p $NEXUS_PASSWORD -e gitlab@repo.dsi.tecnico.ulisboa.pt
+    - npm-cli-adduser -r $NEXUS_BASE_URL/repository/npm-dsi/ -u $NEXUS_USERNAME -p $NEXUS_PASSWORD -e gitlab@repo.dsi.tecnico.ulisboa.pt
+    - npm install
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 1 day
+
+# lint:
+#   stage: linting
+#   script: npm run lint
+
+package:
+  stage: package
+  script:
+    - npm run dist
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 day
+  except:
+    - tags
+
+snapshot:
+  stage: release-artifact
+  script:
+    - export SNAPSHOT_VERSION=SNAPSHOT-$(date +%Y-%m-%d-%H-%M)
+    - mkdir -p ~/.ssh
+    - echo "$DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H repo.dsi.tecnico.ulisboa.pt >> ~/.ssh/known_hosts
+    - git fetch --tags
+    - if [ $(git tag -l "$SNAPSHOT_VERSION") ]; then log_error "Version $SNAPSHOT_VERSION already exists" && exit 1; fi
+    - git tag $SNAPSHOT_VERSION
+    - |
+      git remote set-url --push origin git@repo.dsi.tecnico.ulisboa.pt:${CI_PROJECT_PATH}.git
+    # This will only work if ~/.ssh/id_rsa key has write access.
+    - git push --tags || ( echo "Make sure the deploy key has write access!" && exit 1 )
+    - export FILENAME=${CI_PROJECT_NAME}-${SNAPSHOT_VERSION}.tar.gz
+    - tar czvf /tmp/${FILENAME} ./dist ./node_modules ./package.json
+    - curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file /tmp/${FILENAME} ${NEXUS_BASE_URL}/repository/${NEXUS_REPOSITORY}/${FILENAME}
+    - shasum -a 256 /tmp/${FILENAME}
+    - watchdog notify -title "FenixEdu $CI_PROJECT_NAME" -msg "$GITLAB_USER_NAME released $SNAPSHOT_VERSION successfully."
+  environment:
+    name: snapshot
+  allow_failure: false
+  when: manual
+  only:
+    refs:
+      - master
+  except:
+    - tags
+
+release:
+  stage: release-artifact
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H repo.dsi.tecnico.ulisboa.pt >> ~/.ssh/known_hosts
+    - git fetch --tags
+    - if [ $(git tag -l "$PACKAGE_VERSION") ]; then log_error "Version $PACKAGE_VERSION already exists" && exit 1; fi
+    - git tag $PACKAGE_VERSION
+    - |
+      git remote set-url --push origin git@repo.dsi.tecnico.ulisboa.pt:${CI_PROJECT_PATH}.git
+    # This will only work if ~/.ssh/id_rsa key has write access.
+    - git push --tags || ( echo "Make sure the deploy key has write access!" && exit 1 )
+    - tar czvf /tmp/${CI_PROJECT_NAME}-${PACKAGE_VERSION}.tar.gz ./dist ./node_modules ./package.json
+    - curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file /tmp/${CI_PROJECT_NAME}-${PACKAGE_VERSION}.tar.gz ${NEXUS_BASE_URL}/repository/${NEXUS_REPOSITORY}/${CI_PROJECT_NAME}-${PACKAGE_VERSION}.tar.gz
+    - shasum -a 256 /tmp/${CI_PROJECT_NAME}-${PACKAGE_VERSION}.tar.gz
+    - watchdog notify -title "FenixEdu $CI_PROJECT_NAME" -msg "$GITLAB_USER_NAME released $PACKAGE_VERSION successfully."
+  environment:
+    name: release
+  allow_failure: false
+  when: manual
+  only:
+    refs:
+      - master
+    changes:
+      - package.json
+  except:
+    - tags

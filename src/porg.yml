@@ -1,7 +1,7 @@
 ---
 application:
   protocol: "https"
-  name: "Sotis"
+  name: "Collector"
   host: "localhost"
   backend-port: 8000
   frontend-port: 8080
@@ -13,9 +13,9 @@ papagaio:
       level: 'debug'
 drivers:
   mongo:
-    collection: "sotis"
-    username: "sotis"
-    password: "sotis"
+    collection: "collector"
+    username: "collector"
+    password: "collector"
     servers:
       - host: "localhost"
         port: 27017
@@ -61,7 +61,7 @@ index-name: scholar
 storage:
   records-storage:
     provider: 'file-system'
-    rootPath: '/tmp/sotis'
+    rootPath: '/tmp/collector'
 
 file-upload-handlers:
   records:

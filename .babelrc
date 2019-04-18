@@ -1,0 +1,21 @@
+{
+  "presets": [
+    ["env", { "targets": { "node": "current" }}],
+    "stage-3"
+  ],
+  "plugins": [
+    ["babel-plugin-root-import", {
+      "rootPathPrefix": "@",
+      "rootPathSuffix": "src"
+    }],
+    ["add-module-exports"]
+  ],
+  "env": {
+    "production": {
+      "plugins": [["babel-plugin-root-import", {
+        "rootPathPrefix": "@",
+        "rootPathSuffix": "dist"
+      }]]
+    }
+  }
+}
