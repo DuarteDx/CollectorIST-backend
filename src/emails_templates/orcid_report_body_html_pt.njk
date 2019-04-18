@@ -1,0 +1,30 @@
+{% extends "./base_body_html.njk" %}
+{% set show_call_to_action = true %}
+{% set show_footnote = true %}
+
+
+{% block title %}
+Relatorio do importador do orcid
+{% endblock %}
+
+{% block message %}
+Relatorio da importação automatica do orcid para utilizador {{name}} <br />
+Importados com sucesso: {{valid}} <br />
+Falha na importação: {{invalid}} <br />
+Lista de importados: <br />
+{% for record in records %}
+* {{ record }} <br />
+{% endfor %}
+{% endblock %}
+
+{% block call_to_action_url %}
+{{app.baseURL}}/
+{% endblock %}
+
+{% block call_to_action_message %}
+Confirma as tuas publicações
+{% endblock %}
+
+{% block footnote %}
+Relatorio generado automaticamente pelo scholar
+{% endblock %}

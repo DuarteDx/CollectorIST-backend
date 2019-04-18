@@ -1,0 +1,24 @@
+{% extends "./base_body_html.njk" %}
+{% set show_call_to_action = true %}
+{% set show_footnote = true %}
+
+{% block title %}
+Orcid import report
+{% endblock %}
+
+{% block message %}
+You are receiving this email because publications from orcid were imported
+{{valid}}
+{% endblock %}
+
+{% block call_to_action_url %}
+{{app.baseURL}}/email-verification?email={{emailId}}&token={{token}}
+{% endblock %}
+
+{% block call_to_action_message %}
+Confirm your publications
+{% endblock %}
+
+{% block footnote %}
+Report generated automatic by scholar
+{% endblock %}

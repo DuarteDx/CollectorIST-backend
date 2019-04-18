@@ -1,0 +1,51 @@
+{
+    "_id" : "N9ugpQC0N4~g6eDFpVV_A",
+    "active" : true,
+    "preferedSource" : "old-sotis",
+    "users" : [ 
+        "ist152274", 
+        "ist152493", 
+        "ist23960"
+    ],
+    "updated" : ISODate("2018-12-17T11:54:20.593Z"),
+    "sources" : {
+        "old-sotis" : {
+            "created" : ISODate("2018-12-17T11:54:20.593Z"),
+            "id" : "kxAdUrLXHuRaYeApboPYD",
+            "record" : {
+                "author" : [ 
+                    {
+                        "name" : "André Alves Pina",
+                        "userId" : "ist152274"
+                    }, 
+                    {
+                        "name" : "Rita de Carvalho ",
+                        "userId" : "ist152493"
+                    }, 
+                    {
+                        "name" : "Carlos Augusto Santos Silva",
+                        "userId" : "ist23960"
+                    }
+                ],
+                "journal" : "Energy",
+                "title" : "Remote Autonomous Energy Systems Project: Towards sustainability in developing countries",
+                "year" : 2012,
+                "month" : 3,
+                "volume" : "48",
+                "pages" : "431-439",
+                "url" : "http://www.sciencedirect.com/science/article/pii/S0360544212004550",
+                "number" : "1",
+                "template" : "article"
+            },
+            "trash" : {
+                "journal" : {
+                    "name" : "Energy",
+                    "id" : "055133bf-c86a-4847-a26d-5fbf2fd5820a"
+                }
+            },
+            "ignored" : [],
+            "recordState" : "valid",
+            "migratedFromId" : "44eb091f-3e74-43b2-a6f8-31e50f3d825e"
+        }
+    }
+}

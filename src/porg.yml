@@ -1,0 +1,86 @@
+---
+application:
+  protocol: "https"
+  name: "Sotis"
+  host: "localhost"
+  backend-port: 8000
+  frontend-port: 8080
+plugins:
+  - name: "blipp"
+papagaio:
+  loggers:
+    - type: "console"
+      level: 'debug'
+drivers:
+  mongo:
+    collection: "sotis"
+    username: "sotis"
+    password: "sotis"
+    servers:
+      - host: "localhost"
+        port: 27017
+  consul:
+    host: 127.0.0.1
+    port: 8500
+  elasticsearch:
+    host: "localhost:9200"
+  smtp:
+    host: 127.0.0.1
+    port: 5025
+auth:
+  user-session:
+    single-sign-on:
+      jwt:
+        secret: '54235345342534534'
+      type:
+        saml:
+          idpCertificatePath: './idp_certificate.crt'
+          spCertificatePath: './sp_certificate.crt'
+          spPrivateKeyPath: './sp_private_key.pem'
+          loginUrl: 'https://fenix-garuda.tecnico.ulisboa.pt:9443/simplesaml/saml2/idp/SSOService.php'
+          logoutUrl: 'https://fenix-garuda.tecnico.ulisboa.pt:9443/simplesaml/saml2/idp/SingleLogoutService.php'
+          logoutRedirect: 'https://fenix-garuda.tecnico.ulisboa.pt:9443/simplesaml'
+    two-factor:
+      persistence-provider: 'mongo'
+      modes:
+        - u2f
+        - totp
+tasks:
+  persistence-provider: "mongo"
+  roles: ['user']
+  two-factor: false
+migrations:
+  persistence-provider: "mongo"
+lock-provider:
+  type: 'consul'
+  options:
+    keyValueStorePath: 'scholar-local/locks'
+picture-url: 'https://fenix.tecnico.ulisboa.pt/user/photo/'
+
+index-name: scholar
+storage:
+  records-storage:
+    provider: 'file-system'
+    rootPath: '/tmp/sotis'
+
+file-upload-handlers:
+  records:
+    persistenceProvider: "mongo"
+    storageProvider: "records-storage"
+    deduplication: true
+    mime-types: ['application/pdf']
+    porg-auth:
+      type: 'no-auth'
+    payload:
+      maxBytes: 52428800 # 50MB
+
+email:
+  throttling:
+    persistence-provider: 'mongo'
+  driver: 'smtp'
+
+oai-pmh:
+  name: "Scholar ULisboa"
+  deletedRecord: "transient"
+  admin-emails:
+    - dsi@tecnico.ulisboa.pt

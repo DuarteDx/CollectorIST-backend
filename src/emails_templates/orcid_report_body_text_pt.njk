@@ -1,0 +1,8 @@
+Relatorio da importação automatica do orcid para utilizador {{name}} <br />
+Importados com sucesso: {{valid}} <br />
+Falha na importação: {{invalid}} <br />
+
+Lista de importados: <br />
+{% for record in records %}
+* {{ record }} <br />
+{% endfor %}

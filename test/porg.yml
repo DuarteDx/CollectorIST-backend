@@ -1,0 +1,38 @@
+---
+application:
+  protocol: "https"
+  name: "Sotis"
+  host: "localhost"
+  backendPort: 8100
+  frontendPort: 8080
+plugins:
+  - name: "blipp"
+loggers:
+  - type: "file"
+  - options: 
+    - filename: 'logTest'
+drivers:
+  mongo:
+    collection: "sotis-test"
+    username: "sotis"
+    password: "sotis"
+    servers:
+      - host: "localhost"
+        port: 27017
+  consul:
+    host: 127.0.0.1
+    port: 8500
+auth:
+  persistenceProvider: "mongo"
+  twoFactor:
+    modes:
+      - u2f
+      - totp
+  jwtSecret: "54235345342534534"
+migrations:
+  persistenceProvider: "mongo"
+lockerProvider: 'consul'
+nodeStartPath: '../../../src' 
+pictureUrl: 'https://fenix.tecnico.ulisboa.pt/user/photo/'
+
+
