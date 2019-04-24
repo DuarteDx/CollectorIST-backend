@@ -2,7 +2,7 @@ import RegisterAssetService from '@/services/assets/RegisterAssetService'
 
 const handler = async (request, h) => {
   return RegisterAssetService({
-    author: request.getPrincipal().username,
+    // author: request.getPrincipal().username,
     asset: request.payload
   })
 }

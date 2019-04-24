@@ -1,7 +1,7 @@
 import ListAssetsController from './controllers/ListAssetsController'
 import RegisterAssetController from './controllers/RegisterAssetController'
 import ViewAssetController from './controllers/ViewAssetController'
-import TestAssetController from './controllers/TestAssetController'
+import DeleteAssetController from './controllers/DeleteAssetController'
 
 export const plugin = {
   name: 'assets-plugin',
@@ -10,14 +10,14 @@ export const plugin = {
   register: function (server, options) {
     server.route({
       path: '/',
-      method: 'GET',
-      ...ListAssetsController
+      method: 'POST',
+      ...RegisterAssetController
     })
 
     server.route({
       path: '/',
-      method: 'POST',
-      ...RegisterAssetController
+      method: 'GET',
+      ...ListAssetsController
     })
 
     server.route({
@@ -27,9 +27,9 @@ export const plugin = {
     })
 
     server.route({
-      path: '/test',
-      method: 'GET',
-      ...TestAssetController
+      path: '/',
+      method: 'DELETE',
+      ...DeleteAssetController
     })
   }
 }

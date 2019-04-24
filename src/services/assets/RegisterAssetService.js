@@ -1,10 +1,16 @@
 import { Mongo } from 'porg'
 import nanoId from 'nanoid'
 
-export default async ({ author, asset }) => {
+export default async ({ asset }) => {
+  // Console output
+  let today = new Date()
+  let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+  console.log(time + ' POST -> Insert single asset (title: ' + asset.title + ')')
+
+  // Insert asset into DB
   let db = await Mongo.getDB()
   asset._id = nanoId()
-  asset.author = author
   await db.collection('assets').insertOne(asset)
-  return { id: asset._id }
+
+  return 'Id of newly inserted asset: ' + asset._id
 }
