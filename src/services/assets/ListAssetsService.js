@@ -1,3 +1,24 @@
+import { Mongo, errorWithKey } from 'porg'
+import NormalizeObject from '@/schemas/NormalizeObject'
+
+export default async () => {
+  // Console output
+  let today = new Date()
+  let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+  console.log(time + ' GET -> List of assets')
+
+  // Fetch data from DB
+  const db = await Mongo.getDB()
+  const asset = await db.collection('assets').find({}).toArray()
+  if (!asset) {
+    throw errorWithKey('asset-not-found')
+  }
+
+  return NormalizeObject(asset)
+}
+
+/* ORIGINAL CODE
+
 import { Elasticsearch, config } from 'porg'
 
 export default async ({ author, skip, limit, sort, q, templates, start, end }) => {
@@ -71,4 +92,4 @@ export default async ({ author, skip, limit, sort, q, templates, start, end }) =
     totalItems: response.hits.total,
     items: assets
   }
-}
+} */

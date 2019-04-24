@@ -1,5 +1,5 @@
 import GetAssetService from '@/services/assets/GetAssetService'
-import Joi from 'joi'
+// import Joi from 'joi'
 
 const handler = async (request, h) => {
   const asset = await GetAssetService({ id: request.params.id })
@@ -8,11 +8,11 @@ const handler = async (request, h) => {
 
 const config = {
   description: 'Get an asset',
-  validate: {
+  /* validate: {
     params: {
       id: Joi.string().required()
     }
-  },
+  }, */
   plugins: {
     'porg-auth': {
       type: 'no-auth'

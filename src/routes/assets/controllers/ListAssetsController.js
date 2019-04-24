@@ -1,8 +1,11 @@
 import ListAssetsService from '@/services/assets/ListAssetsService'
-import Joi from 'joi'
+// import Joi from 'joi'
 
 const handler = async (request, h) => {
-  const { totalItems, items } = await ListAssetsService({
+  const assets = await ListAssetsService()
+  return assets
+
+  /* const { totalItems, items } = await ListAssetsService({
     author: request.query.author,
     skip: request.query.skip,
     limit: request.query.limit,
@@ -15,12 +18,12 @@ const handler = async (request, h) => {
   return {
     totalItems,
     items
-  }
+  } */
 }
 
 const config = {
   description: 'List assets',
-  validate: {
+  /* validate: {
     query: {
       author: Joi.string(),
       skip: Joi.number().integer().min(0).default(0),
@@ -31,7 +34,7 @@ const config = {
       start: Joi.date(),
       end: Joi.date().min(Joi.ref('start'))
     }
-  },
+  }, */
   plugins: {
     'porg-auth': {
       type: 'no-auth'

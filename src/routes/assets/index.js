@@ -1,6 +1,7 @@
 import ListAssetsController from './controllers/ListAssetsController'
 import RegisterAssetController from './controllers/RegisterAssetController'
 import ViewAssetController from './controllers/ViewAssetController'
+import TestAssetController from './controllers/TestAssetController'
 
 export const plugin = {
   name: 'assets-plugin',
@@ -23,6 +24,12 @@ export const plugin = {
       path: '/{id}',
       method: 'GET',
       ...ViewAssetController
+    })
+
+    server.route({
+      path: '/test',
+      method: 'GET',
+      ...TestAssetController
     })
   }
 }

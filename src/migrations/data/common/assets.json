@@ -1,5 +1,12 @@
-[{
-    "_id": "monalisa",
-    "title": "Mona Lisa",
-    "author": "ist155371"
-}]
+[
+    {
+        "_id": "monalisa",
+        "title": "Mona Lisa",
+        "author": "ist155371"
+    },
+    {
+        "_id": "monet",
+        "title": "Quadro de teste",
+        "author": "Monet"
+    }
+]

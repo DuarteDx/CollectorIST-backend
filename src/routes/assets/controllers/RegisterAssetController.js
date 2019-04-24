@@ -11,8 +11,9 @@ const config = {
   description: 'Register a new asset',
   plugins: {
     'porg-auth': {
-      type: 'user-session',
-      roles: ['user']
+      type: 'no-auth'
+      /* type: 'user-session',
+      roles: ['user'] */
     }
   }
 }
