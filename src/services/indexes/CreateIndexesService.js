@@ -1,5 +1,6 @@
 import { Elasticsearch, Mongo, config, lockProvider } from 'porg'
 import IndexAssetService from '@/services/assets/IndexAssetService'
+import IndexCollectionsService from '@/services/collections/IndexCollectionsService'
 
 const sleep = function (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -21,6 +22,7 @@ export default async () => {
   try {
     const db = await Mongo.getDB()
     const assets = await db.collection('assets').find({ active: true }).toArray()
+    const collections = await db.collection('collections').find({ active: true }).toArray()
 
     await client.indices.create({
       index: config.indexName,
@@ -54,8 +56,22 @@ export default async () => {
         }
       }
     })
+    await client.indices.putMapping({
+      index: config.indexName,
+      type: 'collections',
+      body: {
+        _all: { enabled: false },
+        properties: {
+          name: { type: 'text', analyzer: 'StandartAndLowerCase' }
+        }
+      }
+    })
     const counter = {
       assets: {
+        processed: 0,
+        ignored: 0
+      },
+      collections: {
         processed: 0,
         ignored: 0
       }
@@ -63,6 +79,10 @@ export default async () => {
     for (let asset of assets) {
       counter.assets.processed++
       await IndexAssetService({ asset })
+    }
+    for (let collection of collections) {
+      counter.collections.processed++
+      await IndexCollectionsService({ collection })
     }
     return counter
   } catch (err) {
