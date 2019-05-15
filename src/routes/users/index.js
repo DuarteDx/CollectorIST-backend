@@ -1,5 +1,7 @@
 import LoginController from './controllers/LoginController'
 import CreateUserController from './controllers/CreateUserController'
+import ListUsersController from './controllers/ListUsersController'
+import DeleteUserController from './controllers/DeleteUserController'
 
 export const plugin = {
   name: 'users-plugin',
@@ -16,6 +18,18 @@ export const plugin = {
       path: '/createUser',
       method: 'POST',
       ...CreateUserController
+    })
+
+    server.route({
+      path: '/all',
+      method: 'GET',
+      ...ListUsersController
+    })
+
+    server.route({
+      path: '/',
+      method: 'DELETE',
+      ...DeleteUserController
     })
   }
 }

@@ -1,44 +1,18 @@
-import { Elasticsearch, config } from 'porg'
-import UserSchema from '@/schemas/UserSchema'
+import { Mongo, errorWithKey } from 'porg'
+import NormalizeObject from '@/schemas/NormalizeObject'
 
-export default async ({ skip, limit, sort, q, roles }) => {
-  const client = await Elasticsearch.getClient()
+export default async () => {
+  // Console output
+  let today = new Date()
+  let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+  console.log(time + ' GET -> List of users')
 
-  const body = {
-    from: skip,
-    size: limit,
-    query: {
-      bool: {
-        must: [],
-        should: []
-      }
-    }
+  // Fetch data from DB
+  const db = await Mongo.getDB()
+  const users = await db.collection('users').find({}).toArray()
+  if (!users) {
+    throw errorWithKey('users-not-found')
   }
 
-  if (q) {
-    body.query.bool.should.push({ match: { 'name': q } })
-  }
-
-  if (roles) {
-    roles.forEach((r) => {
-      body.query.bool.must.push({ match: { 'roles': r } })
-    })
-  }
-
-  const response = await client.search({
-    index: config.indexName,
-    type: 'users',
-    body
-  })
-
-  const users = response.hits.hits.map(r => {
-    return {
-      ...r._source,
-      _id: r._id
-    }
-  })
-  return {
-    totalItems: response.hits.total,
-    items: users.map(UserSchema)
-  }
+  return NormalizeObject(users)
 }

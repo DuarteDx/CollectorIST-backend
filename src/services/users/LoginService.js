@@ -14,7 +14,8 @@ export default async ({ clientUser }) => {
       return {
         username: clientUser.username,
         password: clientUser.hashedPassword,
-        rank: user.rank
+        rank: user.rank,
+        success: true
       }
     } else {
       return 'Invalid password!'
