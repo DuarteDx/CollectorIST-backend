@@ -1,15 +1,14 @@
-import RegisterAssetService from '@/services/assets/RegisterAssetService'
+import RegisterCollectionService from '@/services/collections/RegisterCollectionService'
 
 const handler = async (request, h) => {
   console.log(request.payload)
-  return RegisterAssetService({
-    // author: request.getPrincipal().username,
-    asset: request.payload
+  return RegisterCollectionService({
+    collection: request.payload
   })
 }
 
 const config = {
-  description: 'Register a new asset',
+  description: 'Register a new collection',
   plugins: {
     'porg-auth': {
       type: 'no-auth'
