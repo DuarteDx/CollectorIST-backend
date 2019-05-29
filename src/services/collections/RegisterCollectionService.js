@@ -12,5 +12,15 @@ export default async ({ collection }) => {
   collection._id = nanoId()
   await db.collection('collections').insertOne(collection)
 
+  // Create log
+  var log = {
+    time: today,
+    action: 'Insert collection',
+    asseId: collection._id,
+    userId: 'ToDo',
+    userName: 'ToDo2'
+  }
+  await db.collection('logs').insertOne(log)
+
   return 'Id of newly inserted collection: ' + collection._id
 }

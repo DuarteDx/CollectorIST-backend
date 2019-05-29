@@ -11,6 +11,16 @@ export default async ({ clientUser }) => {
     console.log('server password: ' + user.password)
     console.log('client password: ' + clientUser.hashedPassword)
     if (user.password === clientUser.hashedPassword) {
+
+      // Create log
+      var log = {
+        time: Date(),
+        action: 'Login',
+        userId: user._id,
+        userName: clientUser.username
+      }
+      await db.collection('logs').insertOne(log)
+
       return {
         username: clientUser.username,
         password: clientUser.hashedPassword,

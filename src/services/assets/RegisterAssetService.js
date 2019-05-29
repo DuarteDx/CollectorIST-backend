@@ -12,5 +12,15 @@ export default async ({ asset }) => {
   asset._id = nanoId()
   await db.collection('assets').insertOne(asset)
 
+  // Create log
+  var log = {
+    time: today,
+    action: 'Register asset',
+    asseId: asset._id,
+    userId: 'ToDo',
+    userName: 'ToDo2'
+  }
+  await db.collection('logs').insertOne(log)
+
   return 'Id of newly inserted asset: ' + asset._id
 }
