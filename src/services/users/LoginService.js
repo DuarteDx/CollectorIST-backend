@@ -1,8 +1,8 @@
 import { Mongo } from 'porg'
+const jwt = require('jsonwebtoken')
 
 export default async ({ clientUser }) => {
   let db = await Mongo.getDB()
-  console.log(clientUser)
   const user = await db.collection('users').findOne({ 'name': clientUser.username })
   console.log(user)
   if (!user) {
@@ -11,6 +11,7 @@ export default async ({ clientUser }) => {
     console.log('server password: ' + user.password)
     console.log('client password: ' + clientUser.hashedPassword)
     if (user.password === clientUser.hashedPassword) {
+      var token = jwt.sign({ user }, 'secretKey', { expiresIn: '7d' })
 
       // Create log
       var log = {
@@ -25,7 +26,8 @@ export default async ({ clientUser }) => {
         username: clientUser.username,
         password: clientUser.hashedPassword,
         rank: user.rank,
-        success: true
+        success: true,
+        token: token
       }
     } else {
       return 'Invalid password!'

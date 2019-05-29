@@ -2,6 +2,7 @@ import ListAssetsController from './controllers/ListAssetsController'
 import RegisterAssetController from './controllers/RegisterAssetController'
 import ViewAssetController from './controllers/ViewAssetController'
 import DeleteAssetController from './controllers/DeleteAssetController'
+import TestAuthController from './controllers/TestAuthController'
 
 export const plugin = {
   name: 'assets-plugin',
@@ -30,6 +31,12 @@ export const plugin = {
       path: '/',
       method: 'DELETE',
       ...DeleteAssetController
+    })
+
+    server.route({
+      path: '/testAuth',
+      method: 'POST',
+      ...TestAuthController
     })
   }
 }
