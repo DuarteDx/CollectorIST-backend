@@ -8,7 +8,7 @@ export const plugin = {
   route: '/api/v1/collection',
   register: function (server, options) {
     server.route({
-      path: '/all',
+      path: '/',
       method: 'GET',
       ...ListCollectionsController
     })
