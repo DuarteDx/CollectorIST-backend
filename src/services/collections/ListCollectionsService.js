@@ -5,14 +5,14 @@ export default async () => {
   // Console output
   let today = new Date()
   let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-  console.log(time + ' GET -> List of users')
+  console.log(time + ' GET -> List of collections')
 
   // Fetch data from DB
   const db = await Mongo.getDB()
-  const users = await db.collection('users').find({}).toArray()
-  if (!users) {
-    throw errorWithKey('users-not-found')
+  const collections = await db.collection('collections').find({}).toArray()
+  if (!collections) {
+    throw errorWithKey('collections-not-found')
   }
 
-  return NormalizeObject(users)
+  return NormalizeObject(collections)
 }
