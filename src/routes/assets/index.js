@@ -22,7 +22,7 @@ export const plugin = {
     })
 
     server.route({
-      path: '/{id}',
+      path: '/{id}/{token}',
       method: 'GET',
       ...ViewAssetController
     })

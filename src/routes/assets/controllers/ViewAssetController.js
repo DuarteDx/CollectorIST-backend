@@ -2,7 +2,12 @@ import GetAssetService from '@/services/assets/GetAssetService'
 // import Joi from 'joi'
 
 const handler = async (request, h) => {
-  const asset = await GetAssetService({ id: request.params.id })
+  console.log(request.params.token)
+  var requestedAsset = {
+    id: request.params.id,
+    token: request.params.token
+  }
+  const asset = await GetAssetService(requestedAsset)
   return asset
 }
 

@@ -12,7 +12,7 @@ export default async ({ clientUser }) => {
     console.log('client password: ' + clientUser.hashedPassword)
     if (user.password === clientUser.hashedPassword) {
       // Generate JWT token
-      var token = jwt.sign({ user }, 'secretKey', { expiresIn: '7d' })
+      var token = jwt.sign({ user }, 'secretKey', { expiresIn: '1d' })
 
       // Create log
       var log = {
