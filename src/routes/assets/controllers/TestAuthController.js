@@ -2,8 +2,9 @@ import TestAuthService from '@/services/assets/TestAuthService'
 
 const handler = async (request, h) => {
   console.log(request.payload)
-  const asset = await TestAuthService({ asset: request.payload })
-  return asset
+  const response = await TestAuthService({ asset: request.payload })
+  console.log(response)
+  return response
 }
 
 const config = {

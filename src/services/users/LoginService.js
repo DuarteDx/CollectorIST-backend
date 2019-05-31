@@ -11,6 +11,7 @@ export default async ({ clientUser }) => {
     console.log('server password: ' + user.password)
     console.log('client password: ' + clientUser.hashedPassword)
     if (user.password === clientUser.hashedPassword) {
+      // Generate JWT token
       var token = jwt.sign({ user }, 'secretKey', { expiresIn: '7d' })
 
       // Create log
@@ -20,6 +21,7 @@ export default async ({ clientUser }) => {
         userId: user._id,
         userName: clientUser.username
       }
+      // Insert log into DB
       await db.collection('logs').insertOne(log)
 
       return {

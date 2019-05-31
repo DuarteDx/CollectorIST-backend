@@ -2,6 +2,11 @@ const jwt = require('jsonwebtoken')
 
 export default async ({ asset }) => {
   console.log(asset.token)
+  return jwt.verify(asset.token, 'secretKey', { expiresIn: '7d' })
+}
+
+/* export default async ({ asset }) => {
+  console.log(asset.token)
   return jwt.verify(asset.token, 'secretkey', (err, authData) => {
     console.log('inside jwt method')
     // console.log(asset.token)
@@ -15,4 +20,4 @@ export default async ({ asset }) => {
       }
     }
   })
-}
+} */
