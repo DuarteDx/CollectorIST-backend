@@ -2,7 +2,7 @@ import LoginService from '@/services/users/LoginService'
 
 const handler = async (request, h) => {
   const user = await LoginService({
-    clientUser: request.payload
+    istTokens: request.payload
   })
   return user
 }

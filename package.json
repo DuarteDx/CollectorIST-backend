@@ -39,7 +39,7 @@
     "tape-promise": "4.0.0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bibtex-parse-js": "0.0.24",
     "blipp": "3.1.1",
     "ceph": "^0.9.6",
