@@ -4,6 +4,8 @@ const axios = require('axios')
 
 export default async ({ istTokens }) => {
   let today = new Date()
+  let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+  console.log(time + ' POST -> Login')
 
   // Get DB
   let db = await Mongo.getDB()
@@ -17,7 +19,7 @@ export default async ({ istTokens }) => {
     .catch(function (error) {
       console.log(error)
     })
-  console.log(userIstUsername)
+  // console.log(userIstUsername)
 
   // Find platform with such username
   const user = await db.collection('users').findOne({ 'username': userIstUsername })
