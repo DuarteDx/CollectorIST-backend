@@ -6,6 +6,7 @@ import GetUserController from './controllers/GetUserController'
 import DeleteUserCollectionController from './controllers/DeleteUserCollectionController'
 import ChangeUserRankController from './controllers/ChangeUserRankController'
 import AddCollectionToUserController from './controllers/AddCollectionToUserController'
+import CheckIfAdminController from './controllers/CheckIfAdminController'
 
 export const plugin = {
   name: 'users-plugin',
@@ -58,6 +59,12 @@ export const plugin = {
       path: '/{istId}/collections/{token}',
       method: 'POST',
       ...AddCollectionToUserController
+    })
+
+    server.route({
+      path: '/checkIfAdmin/{token}',
+      method: 'GET',
+      ...CheckIfAdminController
     })
   }
 }
