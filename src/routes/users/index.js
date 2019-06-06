@@ -2,6 +2,8 @@ import LoginController from './controllers/LoginController'
 import CreateUserController from './controllers/CreateUserController'
 import ListUsersController from './controllers/ListUsersController'
 import DeleteUserController from './controllers/DeleteUserController'
+import GetUserController from './controllers/GetUserController'
+import DeleteUserCollectionController from './controllers/DeleteUserCollectionController'
 
 export const plugin = {
   name: 'users-plugin',
@@ -27,9 +29,21 @@ export const plugin = {
     })
 
     server.route({
+      path: '/{istId}/{token}',
+      method: 'GET',
+      ...GetUserController
+    })
+
+    server.route({
       path: '/',
       method: 'DELETE',
       ...DeleteUserController
+    })
+
+    server.route({
+      path: '/{istId}/collections/{collectionName}/{token}',
+      method: 'DELETE',
+      ...DeleteUserCollectionController
     })
   }
 }
