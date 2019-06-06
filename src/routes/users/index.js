@@ -4,6 +4,8 @@ import ListUsersController from './controllers/ListUsersController'
 import DeleteUserController from './controllers/DeleteUserController'
 import GetUserController from './controllers/GetUserController'
 import DeleteUserCollectionController from './controllers/DeleteUserCollectionController'
+import ChangeUserRankController from './controllers/ChangeUserRankController'
+import AddCollectionToUserController from './controllers/AddCollectionToUserController'
 
 export const plugin = {
   name: 'users-plugin',
@@ -44,6 +46,18 @@ export const plugin = {
       path: '/{istId}/collections/{collectionName}/{token}',
       method: 'DELETE',
       ...DeleteUserCollectionController
+    })
+
+    server.route({
+      path: '/{istId}/rank/{newRank}/{token}',
+      method: 'POST',
+      ...ChangeUserRankController
+    })
+
+    server.route({
+      path: '/{istId}/collections/{token}',
+      method: 'POST',
+      ...AddCollectionToUserController
     })
   }
 }
