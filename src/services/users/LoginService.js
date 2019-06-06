@@ -63,7 +63,14 @@ export default async ({ istTokens }) => {
     }
     await db.collection('logs').insertOne(log2)
 
-    var jwtToken2 = jwt.sign({ user }, 'secretKey', { expiresIn: '1d' })
+    const newUserToken2 = {
+      'username': userIstInfo.username,
+      'name': userIstInfo.name,
+      'rank': 0,
+      'collections': null
+    }
+
+    var jwtToken2 = jwt.sign({ newUserToken2 }, 'secretKey', { expiresIn: '1d' })
     return jwtToken2
   }
 }
