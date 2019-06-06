@@ -21,7 +21,7 @@ export const plugin = {
     })
 
     server.route({
-      path: '/all',
+      path: '/all/{token}',
       method: 'GET',
       ...ListUsersController
     })
