@@ -39,7 +39,7 @@
     "tape-promise": "4.0.0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bibtex-parse-js": "0.0.24",
     "blipp": "3.1.1",
     "ceph": "^0.9.6",
@@ -52,7 +52,8 @@
     "gravatar": "^1.6.0",
     "hash.js": "^1.1.7",
     "joi": "13.7.0",
-    "jsonwebtoken": "8.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
     "metadata-validator": "1.0.0",
     "moment": "2.22.2",
     "nanoid": "^1.2.6",

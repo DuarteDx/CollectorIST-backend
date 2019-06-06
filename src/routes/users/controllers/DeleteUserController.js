@@ -4,7 +4,7 @@ import DeleteUserService from '@/services/users/DeleteUserService'
 const handler = async (request, h) => {
   console.log(request.payload)
   return DeleteUserService({
-    id: request.payload._id
+    id: request.payload.id
   })
 }
 

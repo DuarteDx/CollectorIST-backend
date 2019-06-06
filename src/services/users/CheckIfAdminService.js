@@ -1,5 +1,6 @@
 import { Mongo, errorWithKey } from 'porg'
 import NormalizeObject from '@/schemas/NormalizeObject'
+import jwtDecode from 'jwt-decode'
 const jwt = require('jsonwebtoken')
 
 export default async (token) => {
@@ -7,19 +8,22 @@ export default async (token) => {
     if (err) {
       return '403 Forbidden!'
     } else {
-      // Console output
+      var decodedToken = jwtDecode(token)
+      var username = decodedToken.newUserToken2.username
+
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-      console.log(time + ' GET -> Users List (Admin)')
+      console.log(time + ' GET -> Is user admin? (' + username + ')')
 
       // Fetch data from DB
       const db = await Mongo.getDB()
-      const users = await db.collection('users').find({}).toArray()
-      if (!users) {
-        throw errorWithKey('users-not-found')
-      }
+      const user = await db.collection('users').findOne({ 'username': username })
 
-      return NormalizeObject(users)
+      if (user.rank === 2) {
+        return true
+      } else {
+        return false
+      }
     }
   })
 }

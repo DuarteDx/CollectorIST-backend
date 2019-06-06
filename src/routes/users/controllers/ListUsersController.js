@@ -1,7 +1,7 @@
 import ListUsersService from '@/services/users/ListUsersService'
 
 const handler = async (request, h) => {
-  const users = await ListUsersService()
+  const users = await ListUsersService(request.params.token)
   return users
 }
 

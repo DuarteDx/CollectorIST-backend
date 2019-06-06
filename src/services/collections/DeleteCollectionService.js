@@ -10,5 +10,15 @@ export default async ({ id }) => {
   let db = await Mongo.getDB()
   await db.collection('collections').deleteOne({ _id: id })
 
+  // Create log
+  var log = {
+    time: today,
+    action: 'Delete collection',
+    asseId: id,
+    userId: 'ToDo',
+    userName: 'ToDo2'
+  }
+  await db.collection('logs').insertOne(log)
+
   return 'Deleted collection with id: ' + id
 }

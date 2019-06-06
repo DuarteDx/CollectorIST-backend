@@ -12,7 +12,7 @@ export default async ({ id }) => {
 
   // Create log
   var log = {
-    time: time,
+    time: today,
     action: 'Delete asset',
     asseId: id,
     userId: 'ToDo',

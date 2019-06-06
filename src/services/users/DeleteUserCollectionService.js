@@ -1,8 +1,7 @@
 import { Mongo, errorWithKey } from 'porg'
-import NormalizeObject from '@/schemas/NormalizeObject'
 const jwt = require('jsonwebtoken')
 
-export default async (token) => {
+export default async (token, istId, collectionName) => {
   return jwt.verify(token, 'secretKey', async (err, authData) => {
     if (err) {
       return '403 Forbidden!'
@@ -10,16 +9,16 @@ export default async (token) => {
       // Console output
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-      console.log(time + ' GET -> Users List (Admin)')
+      console.log(time + ' DELETE -> Collection from user (' + istId + ')')
 
-      // Fetch data from DB
+      // Remove specified collection from user collections list
       const db = await Mongo.getDB()
-      const users = await db.collection('users').find({}).toArray()
-      if (!users) {
-        throw errorWithKey('users-not-found')
-      }
+      await db.collection('users').updateOne(
+        { 'username': istId },
+        { '$pull': { 'collections': collectionName } }
+      )
 
-      return NormalizeObject(users)
+      return 'Removed collection: ' + collectionName
     }
   })
 }
