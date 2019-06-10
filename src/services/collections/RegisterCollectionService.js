@@ -8,7 +8,6 @@ export default async (collection, token) => {
       return '403 Forbidden!'
     } else {
       var decodedToken = jwtDecode(token)
-      console.log(decodedToken)
       if (!decodedToken.newUserToken2.role.admin) {
         return 'You do not have permissions to perform this action'
       }
