@@ -15,7 +15,7 @@ export default async (token, istId, collectionName) => {
       const db = await Mongo.getDB()
       await db.collection('users').updateOne(
         { 'username': istId },
-        { '$pull': { 'collections': collectionName } }
+        { '$pull': { 'role.collections': collectionName } }
       )
 
       return 'Removed collection: ' + collectionName

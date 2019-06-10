@@ -14,7 +14,7 @@ export const plugin = {
     })
 
     server.route({
-      path: '/',
+      path: '/{token}',
       method: 'POST',
       ...RegisterCollectionController
     })

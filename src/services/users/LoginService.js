@@ -32,16 +32,18 @@ export default async ({ istTokens }) => {
       'username': userIstInfo.username,
       'name': userIstInfo.name,
       'picture': userIstInfo.photo,
-      'rank': 0,
-      'collections': null
+      'role': {
+        'admin': false,
+        'editor': false,
+        'collections': []
+      }
     }
     await db.collection('users').insertOne(newUser)
 
     const newUserToken = {
-      'username': userIstInfo.username,
-      'name': userIstInfo.name,
-      'rank': 0,
-      'collections': null
+      'username': newUser.username,
+      'name': newUser.name,
+      'role': newUser.role
     }
 
     var jwtToken = jwt.sign({ newUserToken }, 'secretKey', { expiresIn: '1d' })
@@ -52,6 +54,7 @@ export default async ({ istTokens }) => {
       action: 'Create user',
       id: userIstInfo.username
     }
+
     await db.collection('logs').insertOne(log)
     return jwtToken
   } else {
@@ -64,10 +67,9 @@ export default async ({ istTokens }) => {
     await db.collection('logs').insertOne(log2)
 
     const newUserToken2 = {
-      'username': userIstInfo.username,
-      'name': userIstInfo.name,
-      'rank': 0,
-      'collections': null
+      'username': user.username,
+      'name': user.name,
+      'role': user.role
     }
 
     var jwtToken2 = jwt.sign({ newUserToken2 }, 'secretKey', { expiresIn: '1d' })

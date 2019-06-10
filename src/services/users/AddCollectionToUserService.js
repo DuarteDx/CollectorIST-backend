@@ -15,7 +15,7 @@ export default async (token, istId, newCollection) => {
       const db = await Mongo.getDB()
       await db.collection('users').updateOne(
         { 'username': istId },
-        { '$push': { 'collections': newCollection } }
+        { '$push': { 'role.collections': newCollection } }
       )
 
       return 'Added collection "' + newCollection + '" to user ' + istId

@@ -19,7 +19,7 @@ export default async (token) => {
       const db = await Mongo.getDB()
       const user = await db.collection('users').findOne({ 'username': username })
 
-      if (user.rank === 2) {
+      if (user.role.admin) {
         return true
       } else {
         return false
