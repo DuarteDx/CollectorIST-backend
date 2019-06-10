@@ -1,22 +1,40 @@
 [
     {
-        "main-category": "Pinturas",
+        "title": "Pinturas",
         "sub-categories": [
-            "Aguarela", "Oleo", "Serigrafia"
+            {
+                "title": "Aguarela",
+                "sub-categories": []
+            },
+            {
+                "title": "Oleo",
+                "sub-categories": []
+            },
+            {
+                "title": "Serigrafia",
+                "sub-categories": []
+            }
         ]
     },
     {
-        "main-category": "Esculturas",
+        "title": "Esculturas",
         "sub-categories": []
     },
     {
-        "main-category": "Minerais",
+        "title": "Minerais",
         "sub-categories": [
-            "Areias", "Fosseis"
+            {
+                "title": "Areias",
+                "sub-categories": []
+            },
+            {
+                "title": "Fosseis",
+                "sub-categories": []
+            }
         ]
     },
     {
-        "main-category": "Maquinas",
+        "title": "Maquinas",
         "sub-categories": []
     }
 ]
