@@ -1,7 +1,7 @@
-import RegisterCategoriesService from '@/services/collections/RegisterCategoriesService'
+import RegisterCategoriesService from '@/services/categories/RegisterCategoriesService'
 
 const handler = async (request, h) => {
-  return RegisterCategoriesService(request.payload.file, request.params.token)
+  return RegisterCategoriesService(request.payload.categories, request.params.token)
 }
 
 const config = {

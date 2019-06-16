@@ -1,4 +1,4 @@
-import ListCategoriesService from '@/services/collections/ListCategoriesService'
+import ListCategoriesService from '@/services/categories/ListCategoriesService'
 
 const handler = async (request, h) => {
   const categories = await ListCategoriesService()
