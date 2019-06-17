@@ -1,0 +1,40 @@
+[
+    {
+        "title": "Pinturas",
+        "subCategories": [
+            {
+                "title": "Aguarela",
+                "subCategories": []
+            },
+            {
+                "title": "Oleo",
+                "subCategories": []
+            },
+            {
+                "title": "Serigrafia",
+                "subCategories": []
+            }
+        ]
+    },
+    {
+        "title": "Esculturas",
+        "subCategories": []
+    },
+    {
+        "title": "Minerais",
+        "subCategories": [
+            {
+                "title": "Areias",
+                "subCategories": []
+            },
+            {
+                "title": "Fosseis",
+                "subCategories": []
+            }
+        ]
+    },
+    {
+        "title": "Maquinas",
+        "subCategories": []
+    }
+]

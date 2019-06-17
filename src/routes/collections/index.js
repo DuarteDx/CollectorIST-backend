@@ -14,13 +14,13 @@ export const plugin = {
     })
 
     server.route({
-      path: '/',
+      path: '/{token}',
       method: 'POST',
       ...RegisterCollectionController
     })
 
     server.route({
-      path: '/',
+      path: '/{id}/{token}',
       method: 'DELETE',
       ...DeleteCollectionController
     })

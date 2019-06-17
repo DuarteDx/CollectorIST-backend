@@ -2,13 +2,12 @@ import DeleteCollectionService from '@/services/collections/DeleteCollectionServ
 // import Joi from 'joi'
 
 const handler = async (request, h) => {
-  return DeleteCollectionService({
-    id: request.payload.id
-  })
+  console.log(request.payload)
+  return DeleteCollectionService(request.params.token, request.params.id)
 }
 
 const config = {
-  description: 'Delete an collections',
+  description: 'Delete a collection',
   plugins: {
     'porg-auth': {
       type: 'no-auth'

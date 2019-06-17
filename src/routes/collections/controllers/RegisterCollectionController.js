@@ -2,9 +2,7 @@ import RegisterCollectionService from '@/services/collections/RegisterCollection
 
 const handler = async (request, h) => {
   console.log(request.payload)
-  return RegisterCollectionService({
-    collection: request.payload
-  })
+  return RegisterCollectionService(request.payload.title, request.params.token)
 }
 
 const config = {
