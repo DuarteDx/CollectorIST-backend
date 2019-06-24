@@ -10,7 +10,7 @@ export const plugin = {
   route: '/api/v1/assets',
   register: function (server, options) {
     server.route({
-      path: '/',
+      path: '/{token}',
       method: 'POST',
       ...RegisterAssetController
     })
@@ -28,7 +28,7 @@ export const plugin = {
     })
 
     server.route({
-      path: '/',
+      path: '/{id}/{token}',
       method: 'DELETE',
       ...DeleteAssetController
     })
