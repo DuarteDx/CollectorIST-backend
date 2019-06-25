@@ -21,12 +21,13 @@ export default async (token, asset) => {
 
       // Insert asset into DB
       let db = await Mongo.getDB()
+      asset.location.date = today
       var newAsset = {
         title: asset.title,
         category: asset.category,
         author: asset.author,
         optionalId: asset.optionalId,
-        location: asset.location
+        location: [ asset.location ]
       }
       await db.collection('assets').insertOne(newAsset)
 
