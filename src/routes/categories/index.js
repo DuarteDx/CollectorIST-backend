@@ -1,5 +1,6 @@
 import ListCategoriesController from './controllers/ListCategoriesController'
 import RegisterCategoriesController from './controllers/RegisterCategoriesController'
+import GetCategoryController from './controllers/GetCategoryController'
 
 export const plugin = {
   name: 'categories-plugin',
@@ -16,6 +17,12 @@ export const plugin = {
       path: '/{token}',
       method: 'POST',
       ...RegisterCategoriesController
+    })
+
+    server.route({
+      path: '/{id}',
+      method: 'GET',
+      ...GetCategoryController
     })
   }
 }

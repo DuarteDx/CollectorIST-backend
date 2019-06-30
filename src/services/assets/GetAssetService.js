@@ -1,6 +1,7 @@
 import { Mongo, errorWithKey } from 'porg'
 import NormalizeObject from '@/schemas/NormalizeObject'
 const jwt = require('jsonwebtoken')
+const ObjectId = require('mongodb').ObjectID
 
 export default async (requestedAsset) => {
   console.log(requestedAsset)
@@ -20,12 +21,12 @@ export default async (requestedAsset) => {
 
       // Fetch data from DB
       const db = await Mongo.getDB()
-      const asset = await db.collection('assets').findOne({ _id: requestedAsset.id })
+      const asset = await db.collection('assets').findOne({ _id: ObjectId(requestedAsset.id) })
       if (!asset) {
         throw errorWithKey('asset-not-found', { ctx: requestedAsset.id })
       }
 
-      return NormalizeObject(asset)
+      return asset
     }
   })
 }
