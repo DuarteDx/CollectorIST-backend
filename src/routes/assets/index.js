@@ -3,6 +3,7 @@ import RegisterAssetController from './controllers/RegisterAssetController'
 import ViewAssetController from './controllers/ViewAssetController'
 import DeleteAssetController from './controllers/DeleteAssetController'
 import TestAuthController from './controllers/TestAuthController'
+import SearchController from './controllers/SearchAssetsController'
 
 export const plugin = {
   name: 'assets-plugin',
@@ -37,6 +38,12 @@ export const plugin = {
       path: '/testAuth',
       method: 'POST',
       ...TestAuthController
+    })
+
+    server.route({
+      path: '/search',
+      method: 'GET',
+      ...SearchController
     })
   }
 }

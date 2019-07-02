@@ -1,5 +1,4 @@
 import { Mongo, errorWithKey } from 'porg'
-import NormalizeObject from '@/schemas/NormalizeObject'
 const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectID
 

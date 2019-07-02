@@ -42,6 +42,7 @@ export default async (token, asset) => {
       var newAsset = {
         title: asset.assetInfo.title,
         category: asset.assetInfo.category,
+        collection: asset.assetInfo.collection,
         author: asset.assetInfo.author,
         optionalId: asset.assetInfo.optionalId,
         location: [ asset.assetInfo.location ],
