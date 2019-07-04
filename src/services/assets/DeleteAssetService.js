@@ -1,24 +1,39 @@
 import { Mongo } from 'porg'
+import jwtDecode from 'jwt-decode'
+const jwt = require('jsonwebtoken')
+const ObjectId = require('mongodb').ObjectID
 
-export default async ({ id }) => {
-  // Console output
-  let today = new Date()
-  let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-  console.log(time + ' DELETE -> Single asset (id: ' + id + ')')
+export default async (token, assetId) => {
+  return jwt.verify(token, 'secretKey', async (err, authData) => {
+    if (err) {
+      return '403 Forbidden!'
+    } else {
+      var decodedToken = jwtDecode(token)
+      console.log(decodedToken)
+      if (!decodedToken.newUserToken2.role.admin) {
+        return 'You do not have permissions to perform this action'
+      }
 
-  // Delete asset from DB
-  let db = await Mongo.getDB()
-  await db.collection('assets').deleteOne({ _id: id })
+      // Console output
+      let today = new Date()
+      let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      console.log(time + ' DELETE -> Single asset (id: ' + assetId + ')')
 
-  // Create log
-  var log = {
-    time: today,
-    action: 'Delete asset',
-    asseId: id,
-    userId: 'ToDo',
-    userName: 'ToDo2'
-  }
-  await db.collection('logs').insertOne(log)
+      // Delete collection from DB
+      let db = await Mongo.getDB()
+      await db.collection('assets').deleteOne({ _id: ObjectId(assetId) })
 
-  return 'Deleted asset with id: ' + id
+      // Create log
+      var log = {
+        time: today,
+        action: 'Delete asset',
+        objectId: assetId,
+        userId: decodedToken.newUserToken2.username,
+        userName: decodedToken.newUserToken2.name
+      }
+      await db.collection('logs').insertOne(log)
+
+      return 'Deleted asset with id: ' + assetId
+    }
+  })
 }

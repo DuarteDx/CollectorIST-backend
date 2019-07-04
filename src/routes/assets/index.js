@@ -3,6 +3,7 @@ import RegisterAssetController from './controllers/RegisterAssetController'
 import ViewAssetController from './controllers/ViewAssetController'
 import DeleteAssetController from './controllers/DeleteAssetController'
 import TestAuthController from './controllers/TestAuthController'
+import SearchController from './controllers/SearchAssetsController'
 
 export const plugin = {
   name: 'assets-plugin',
@@ -10,7 +11,7 @@ export const plugin = {
   route: '/api/v1/assets',
   register: function (server, options) {
     server.route({
-      path: '/',
+      path: '/{token}',
       method: 'POST',
       ...RegisterAssetController
     })
@@ -28,7 +29,7 @@ export const plugin = {
     })
 
     server.route({
-      path: '/',
+      path: '/{id}/{token}',
       method: 'DELETE',
       ...DeleteAssetController
     })
@@ -37,6 +38,12 @@ export const plugin = {
       path: '/testAuth',
       method: 'POST',
       ...TestAuthController
+    })
+
+    server.route({
+      path: '/search',
+      method: 'GET',
+      ...SearchController
     })
   }
 }

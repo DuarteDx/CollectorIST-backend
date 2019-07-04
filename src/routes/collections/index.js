@@ -1,6 +1,7 @@
 import ListCollectionsController from './controllers/ListCollectionsController'
 import RegisterCollectionController from './controllers/RegisterCollectionController'
 import DeleteCollectionController from './controllers/DeleteCollectionController'
+import GetCollectionController from './controllers/GetCollectionController'
 
 export const plugin = {
   name: 'collections-plugin',
@@ -23,6 +24,12 @@ export const plugin = {
       path: '/{id}/{token}',
       method: 'DELETE',
       ...DeleteCollectionController
+    })
+
+    server.route({
+      path: '/{id}',
+      method: 'GET',
+      ...GetCollectionController
     })
   }
 }

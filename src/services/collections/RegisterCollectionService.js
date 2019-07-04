@@ -15,12 +15,14 @@ export default async (collection, token) => {
       // Console output
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-      console.log(time + ' POST -> Insert single collection (title: ' + collection + ')')
+      console.log(time + ' POST -> Insert single collection (title: ' + collection.title + ')')
 
       // Insert collection into DB
       let db = await Mongo.getDB()
       var newCollection = {
-        title: collection
+        title: collection.title,
+        responsible: collection.responsible,
+        description: collection.description
       }
       await db.collection('collections').insertOne(newCollection)
 

@@ -1,26 +1,62 @@
 import { Mongo } from 'porg'
-import nanoId from 'nanoid'
+import jwtDecode from 'jwt-decode'
+const jwt = require('jsonwebtoken')
 
-export default async ({ asset }) => {
-  // Console output
-  let today = new Date()
-  let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-  console.log(time + ' POST -> Insert single asset (title: ' + asset.title + ')')
+export default async (token, asset) => {
+  return jwt.verify(token, 'secretKey', async (err, authData) => {
+    if (err) {
+      return '403 Forbidden!'
+    } else {
+      var decodedToken = jwtDecode(token)
+      if (!decodedToken.newUserToken2.role.admin && !decodedToken.newUserToken2.role.editor) {
+        return 'You do not have permissions to perform this action'
+      }
 
-  // Insert asset into DB
-  let db = await Mongo.getDB()
-  asset._id = nanoId()
-  await db.collection('assets').insertOne(asset)
+      // Console output
+      let today = new Date()
+      let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      console.log(time + ' POST -> Insert single asset (title: ' + asset.title + ')')
 
-  // Create log
-  var log = {
-    time: today,
-    action: 'Register asset',
-    asseId: asset._id,
-    userId: 'ToDo',
-    userName: 'ToDo2'
-  }
-  await db.collection('logs').insertOne(log)
+      /* var documents = {
+        length: asset.documents.size,
+        files: []
+      }
 
-  return 'Id of newly inserted asset: ' + asset._id
+      for (let i = 0; i < documents.length; i++) {
+        let newFile = {
+          data: asset['document' + i],
+          description: asset.documents.descriptions[i]
+        }
+        documents.files.push(newFile)
+      }
+
+      console.log(documents) */
+
+      // Insert asset into DB
+      let db = await Mongo.getDB()
+      asset.location.date = today
+      var newAsset = {
+        title: asset.title,
+        category: asset.category, /*
+        collection: asset.collection,
+        author: asset.author, */
+        optionalId: asset.optionalId,
+        location: [ asset.location ]/* ,
+        documents: documents.files */
+      }
+      await db.collection('assets').insertOne(newAsset)
+
+      // Create log
+      var log = {
+        time: today,
+        action: 'Insert asset',
+        objectId: newAsset.title,
+        userId: decodedToken.newUserToken2.username,
+        userName: decodedToken.newUserToken2.name
+      }
+      await db.collection('logs').insertOne(log)
+
+      return 'Inserted new asset with title: ' + newAsset.title
+    }
+  })
 }
