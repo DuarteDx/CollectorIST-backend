@@ -12,8 +12,7 @@ export default async (params) => {
   const db = await Mongo.getDB()
   const categories = await db.collection('assets').find({
     $and: [
-      { title: { $regex: params.title, $options: 'i' } },
-      { author: { $regex: params.creator, $options: 'i' } }
+      { title: { $regex: params.title, $options: 'i' } }
     ]
   }).toArray()
   console.log(categories)

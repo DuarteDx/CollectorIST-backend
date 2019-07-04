@@ -15,38 +15,34 @@ export default async (token, asset) => {
       // Console output
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-      console.log(time + ' POST -> Insert single asset (title: ' + asset.assetInfo.title + ')')
+      console.log(time + ' POST -> Insert single asset (title: ' + asset.title + ')')
 
-      // console.log(asset.document0)
-      // console.log(asset.document1)
-      // console.log(asset.assetInfo)
-
-      var documents = {
-        length: asset.assetInfo.documents.size,
+      /* var documents = {
+        length: asset.documents.size,
         files: []
       }
 
       for (let i = 0; i < documents.length; i++) {
         let newFile = {
           data: asset['document' + i],
-          description: asset.assetInfo.documents.descriptions[i]
+          description: asset.documents.descriptions[i]
         }
         documents.files.push(newFile)
       }
 
-      console.log(documents)
+      console.log(documents) */
 
       // Insert asset into DB
       let db = await Mongo.getDB()
-      asset.assetInfo.location.date = today
+      asset.location.date = today
       var newAsset = {
-        title: asset.assetInfo.title,
-        category: asset.assetInfo.category,
-        collection: asset.assetInfo.collection,
-        author: asset.assetInfo.author,
-        optionalId: asset.assetInfo.optionalId,
-        location: [ asset.assetInfo.location ],
-        documents: documents.files
+        title: asset.title,
+        category: asset.category, /*
+        collection: asset.collection,
+        author: asset.author, */
+        optionalId: asset.optionalId,
+        location: [ asset.location ]/* ,
+        documents: documents.files */
       }
       await db.collection('assets').insertOne(newAsset)
 
