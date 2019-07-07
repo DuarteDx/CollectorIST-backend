@@ -10,11 +10,11 @@ export default async (params) => {
 
   // Fetch data from DB
   const db = await Mongo.getDB()
-  const categories = await db.collection('assets').find({
+  const categories = await db.collection('assets').find().toArray()/* {
     $and: [
       { title: { $regex: params.title, $options: 'i' } }
     ]
-  }).toArray()
+  }) */
   console.log(categories)
   if (!categories) {
     return 'No assets match the given search params!'
