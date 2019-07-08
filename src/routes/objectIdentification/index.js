@@ -1,12 +1,19 @@
 import EditObjectIdentificationController from './controllers/EditObjectIdentificationController'
 import SearchObjectIdentificationController from './controllers/SearchObjectIdentificationController'
 import ConfigureObjectIdentificationController from './controllers/ConfigureObjectIdentificationController'
+import GetObjectIdentificationConfigController from './controllers/GetObjectIdentificationConfigController'
 
 export const plugin = {
   name: 'object-identification-plugin',
   version: '1.0.0',
   route: '/api/v1/assets',
   register: function (server, options) {
+    server.route({
+      path: '/object-identification/{token}',
+      method: 'GET',
+      ...GetObjectIdentificationConfigController
+    })
+
     server.route({
       path: '/search/object-identification/{token}',
       method: 'GET',

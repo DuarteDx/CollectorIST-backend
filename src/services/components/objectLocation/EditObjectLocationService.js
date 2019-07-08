@@ -1,6 +1,7 @@
 import { Mongo } from 'porg'
 import jwtDecode from 'jwt-decode'
 const jwt = require('jsonwebtoken')
+const ObjectId = require('mongodb').ObjectID
 
 export default async (token, assetId, newObjectLocation) => {
   return jwt.verify(token, 'secretKey', async (err, authData) => {
@@ -23,7 +24,7 @@ export default async (token, assetId, newObjectLocation) => {
       // Insert asset into DB
       let db = await Mongo.getDB()
       await db.collection('assets').updateOne(
-        { _id: assetId },
+        { _id: ObjectId(assetId) },
         {
           set: { 'ObjectLocation': newObjectLocation },
           $currentDate: { lastModified: true }
