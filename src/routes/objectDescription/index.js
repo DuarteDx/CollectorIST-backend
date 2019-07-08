@@ -5,22 +5,22 @@ import ConfigureObjectDescriptionController from './controllers/ConfigureObjectD
 export const plugin = {
   name: 'object-description-plugin',
   version: '1.0.0',
-  route: '/api/v1/objectDescription',
+  route: '/api/v1/assets',
   register: function (server, options) {
     server.route({
-      path: '/{token}',
+      path: '/search/object-description/{token}',
       method: 'GET',
       ...SearchObjectDescriptionController
     })
 
     server.route({
-      path: '/{token}',
+      path: '/{id}/object-description/edit/{token}',
       method: 'PUT',
       ...EditObjectDescriptionController
     })
 
     server.route({
-      path: '/{token}',
+      path: '/config/object-description/{token}',
       method: 'PUT',
       ...ConfigureObjectDescriptionController
     })

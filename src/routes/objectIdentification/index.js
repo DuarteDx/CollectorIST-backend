@@ -5,22 +5,22 @@ import ConfigureObjectIdentificationController from './controllers/ConfigureObje
 export const plugin = {
   name: 'object-identification-plugin',
   version: '1.0.0',
-  route: '/api/v1/objectIdentification',
+  route: '/api/v1/assets',
   register: function (server, options) {
     server.route({
-      path: '/{token}',
+      path: '/search/object-identification/{token}',
       method: 'GET',
       ...SearchObjectIdentificationController
     })
 
     server.route({
-      path: '/{token}/{assetId}',
+      path: '/{id}/object-identification/edit/{token}',
       method: 'PUT',
       ...EditObjectIdentificationController
     })
 
     server.route({
-      path: '/{token}/{assetId}',
+      path: '/config/object-identification/{token}',
       method: 'PUT',
       ...ConfigureObjectIdentificationController
     })
