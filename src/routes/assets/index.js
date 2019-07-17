@@ -4,6 +4,7 @@ import ViewAssetController from './controllers/ViewAssetController'
 import DeleteAssetController from './controllers/DeleteAssetController'
 import TestAuthController from './controllers/TestAuthController'
 import SearchController from './controllers/SearchAssetsController'
+import GetModulesController from './controllers/GetModulesController'
 
 export const plugin = {
   name: 'assets-plugin',
@@ -44,6 +45,12 @@ export const plugin = {
       path: '/search',
       method: 'GET',
       ...SearchController
+    })
+
+    server.route({
+      path: '/modules',
+      method: 'GET',
+      ...GetModulesController
     })
   }
 }

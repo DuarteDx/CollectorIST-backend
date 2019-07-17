@@ -17,6 +17,7 @@ export default async (token, assetId, newObjectDescription) => {
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
       console.log(time + 'POST -> Edit asset')
+      console.log(newObjectDescription)
 
       // Validate input
       // ToDo...
@@ -26,7 +27,7 @@ export default async (token, assetId, newObjectDescription) => {
       await db.collection('assets').updateOne(
         { _id: ObjectId(assetId) },
         {
-          set: { 'ObjectDescription': newObjectDescription },
+          $set: { 'ObjectDescription': newObjectDescription },
           $currentDate: { lastModified: true }
         }
       )

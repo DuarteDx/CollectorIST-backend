@@ -1,7 +1,7 @@
 import EditObjectDescriptionService from '@/services/components/objectDescription/EditObjectDescriptionService'
 
 const handler = async (request, h) => {
-  return EditObjectDescriptionService(request.params.token, request.payload)
+  return EditObjectDescriptionService(request.params.token, request.params.id, request.payload)
 }
 
 const config = {

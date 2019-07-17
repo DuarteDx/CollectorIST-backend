@@ -16,7 +16,7 @@ export default async (token, assetId, newObjectLocation) => {
       // Console output
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-      console.log(time + 'POST -> Edit asset Object Location')
+      console.log(time + ' POST -> Edit asset Object Location')
 
       // Validate input
       // ToDo...
@@ -26,7 +26,7 @@ export default async (token, assetId, newObjectLocation) => {
       await db.collection('assets').updateOne(
         { _id: ObjectId(assetId) },
         {
-          set: { 'ObjectLocation': newObjectLocation },
+          $set: { 'ObjectLocation': newObjectLocation },
           $currentDate: { lastModified: true }
         }
       )
@@ -34,7 +34,7 @@ export default async (token, assetId, newObjectLocation) => {
       // Create log
       var log = {
         time: today,
-        action: 'Insert asset',
+        action: 'Edit object location',
         objectId: assetId,
         userId: decodedToken.newUserToken2.username,
         userName: decodedToken.newUserToken2.name
