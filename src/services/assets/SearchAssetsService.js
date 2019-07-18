@@ -9,7 +9,6 @@ export default async (params) => {
   console.log('QUERY RECEIVED FROM FRONTEND: ')
   console.log(params)
   console.log('\n')
-  console.log(params.nResultsPerPage)
 
   // Convert strings into objects
   const ObjectIdentification = JSON.parse(params.objectIdentification)
@@ -58,12 +57,15 @@ export default async (params) => {
 
   // Fetch data from DB
   const db = await Mongo.getDB()
+  const resultsCount = await db.collection('assets').find({ ...query }).count()
   const assets = await db.collection('assets').find({ ...query }).limit(nResultsPerPage).skip((currentPage - 1) * 15).toArray()
   console.log('ASSETS FOUND: ')
   console.log(assets)
   if (!assets) {
     return 'No assets match the given search params!'
   }
+  // Prepend results counts to assets array
+  assets.unshift(resultsCount)
 
   return assets
 }
