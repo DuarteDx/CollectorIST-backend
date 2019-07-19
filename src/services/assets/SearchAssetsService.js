@@ -58,7 +58,7 @@ export default async (params) => {
   // Fetch data from DB
   const db = await Mongo.getDB()
   const resultsCount = await db.collection('assets').find({ ...query }).count()
-  const assets = await db.collection('assets').find({ ...query }).limit(nResultsPerPage).skip((currentPage - 1) * 15).toArray()
+  const assets = await db.collection('assets').find({ ...query }).skip((currentPage - 1) * nResultsPerPage).limit(nResultsPerPage).toArray()
   console.log('ASSETS FOUND: ')
   console.log(assets)
   if (!assets) {

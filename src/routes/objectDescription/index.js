@@ -1,12 +1,19 @@
 import EditObjectDescriptionController from './controllers/EditObjectDescriptionController'
 import SearchObjectDescriptionController from './controllers/SearchObjectDescriptionController'
 import ConfigureObjectDescriptionController from './controllers/ConfigureObjectDescriptionController'
+import GetObjectDescriptionController from './controllers/GetObjectDescriptionController'
 
 export const plugin = {
   name: 'object-description-plugin',
   version: '1.0.0',
   route: '/api/v1/assets',
   register: function (server, options) {
+    server.route({
+      path: '/object-description',
+      method: 'GET',
+      ...GetObjectDescriptionController
+    })
+
     server.route({
       path: '/search/object-description/{token}',
       method: 'GET',
