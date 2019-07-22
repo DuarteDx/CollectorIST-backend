@@ -2,6 +2,7 @@ import EditObjectDescriptionController from './controllers/EditObjectDescription
 import SearchObjectDescriptionController from './controllers/SearchObjectDescriptionController'
 import ConfigureObjectDescriptionController from './controllers/ConfigureObjectDescriptionController'
 import GetObjectDescriptionController from './controllers/GetObjectDescriptionController'
+import GetUserCategoriesController from './controllers/GetUserCategoriesController'
 
 export const plugin = {
   name: 'object-description-plugin',
@@ -12,6 +13,12 @@ export const plugin = {
       path: '/object-description',
       method: 'GET',
       ...GetObjectDescriptionController
+    })
+
+    server.route({
+      path: '/object-description/categories/{token}',
+      method: 'GET',
+      ...GetUserCategoriesController
     })
 
     server.route({
