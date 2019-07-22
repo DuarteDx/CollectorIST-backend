@@ -2,6 +2,7 @@ import GetCollectionsController from './controllers/GetCollectionsController'
 import GetUserCollectionsController from './controllers/GetUserCollectionsController'
 import InsertCollectionController from './controllers/InsertCollectionController'
 import DeleteCollectionController from './controllers/DeleteCollectionController'
+import EditObjectCollectionController from './controllers/EditObjectCollectionController'
 
 export const plugin = {
   name: 'object-collection-plugin',
@@ -30,6 +31,12 @@ export const plugin = {
       path: '/object-collection/collections/{token}',
       method: 'DELETE',
       ...DeleteCollectionController
+    })
+
+    server.route({
+      path: '/{id}/object-collection/edit/{token}',
+      method: 'PUT',
+      ...EditObjectCollectionController
     })
   }
 }
