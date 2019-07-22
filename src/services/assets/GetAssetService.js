@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken')
 const ObjectId = require('mongodb').ObjectID
 
 export default async (requestedAsset) => {
-  console.log(requestedAsset)
+  // console.log(requestedAsset)
   return jwt.verify(requestedAsset.token, 'secretKey', async (err, authData) => {
-    console.log('inside jwt method')
+    // console.log('inside jwt method')
     // AuthData contains all user info!!!! YEAAAAHH
-    console.log(authData)
+    // console.log(authData)
     // console.log(requestedAsset.token)
     console.log(err)
     if (err) {

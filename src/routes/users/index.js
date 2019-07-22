@@ -7,6 +7,7 @@ import DeleteUserCollectionController from './controllers/DeleteUserCollectionCo
 import ChangeUserRankController from './controllers/ChangeUserRankController'
 import AddCollectionToUserController from './controllers/AddCollectionToUserController'
 import CheckIfAdminController from './controllers/CheckIfAdminController'
+import CheckIfCanEditAssetController from './controllers/CheckIfCanEditAssetController'
 
 export const plugin = {
   name: 'users-plugin',
@@ -65,6 +66,12 @@ export const plugin = {
       path: '/checkIfAdmin/{token}',
       method: 'GET',
       ...CheckIfAdminController
+    })
+
+    server.route({
+      path: '/checkIfCanEdit/{assetId}/{token}',
+      method: 'GET',
+      ...CheckIfCanEditAssetController
     })
   }
 }

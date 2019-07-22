@@ -5,10 +5,10 @@ export default async (params) => {
   let today = new Date()
   let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
   console.log(time + 'GET -> Search assets')
-  console.log('\n')
-  console.log('QUERY RECEIVED FROM FRONTEND: ')
-  console.log(params)
-  console.log('\n')
+  // console.log('\n')
+  // console.log('QUERY RECEIVED FROM FRONTEND: ')
+  // console.log(params)
+  // console.log('\n')
 
   // Convert strings into objects
   const ObjectIdentification = JSON.parse(params.objectIdentification)
@@ -51,16 +51,16 @@ export default async (params) => {
     }
   }
 
-  console.log('MONGODB QUERY: ')
-  console.log(query)
-  console.log('\n')
+  // console.log('MONGODB QUERY: ')
+  // console.log(query)
+  // console.log('\n')
 
   // Fetch data from DB
   const db = await Mongo.getDB()
   const resultsCount = await db.collection('assets').find({ ...query }).count()
   const assets = await db.collection('assets').find({ ...query }).skip((currentPage - 1) * nResultsPerPage).limit(nResultsPerPage).toArray()
-  console.log('ASSETS FOUND: ')
-  console.log(assets)
+  // console.log('ASSETS FOUND: ')
+  // console.log(assets)
   if (!assets) {
     return 'No assets match the given search params!'
   }

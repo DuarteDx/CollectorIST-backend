@@ -1,4 +1,5 @@
 import GetCollectionsController from './controllers/GetCollectionsController'
+import GetUserCollectionsController from './controllers/GetUserCollectionsController'
 import InsertCollectionController from './controllers/InsertCollectionController'
 import DeleteCollectionController from './controllers/DeleteCollectionController'
 
@@ -11,6 +12,12 @@ export const plugin = {
       path: '/object-collection/collections',
       method: 'GET',
       ...GetCollectionsController
+    })
+
+    server.route({
+      path: '/object-collection/users/{token}',
+      method: 'GET',
+      ...GetUserCollectionsController
     })
 
     server.route({
