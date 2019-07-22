@@ -1,8 +1,9 @@
 import { Mongo } from 'porg'
 import jwtDecode from 'jwt-decode'
 const jwt = require('jsonwebtoken')
+const ObjectId = require('mongodb').ObjectID
 
-export default async (token, asset) => {
+export default async (token, assetId, newObjectIdentification) => {
   return jwt.verify(token, 'secretKey', async (err, authData) => {
     if (err) {
       return '403 Forbidden!'
@@ -15,38 +16,32 @@ export default async (token, asset) => {
       // Console output
       let today = new Date()
       let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-      console.log(time + ' POST -> Insert single asset (title: ' + asset.title + ')')
+      console.log(time + ' POST -> Edit asset Object Identification')
 
-      /* var documents = {
-        length: asset.documents.size,
-        files: []
-      }
-
-      for (let i = 0; i < documents.length; i++) {
-        let newFile = {
-          data: asset['document' + i],
-          description: asset.documents.descriptions[i]
-        }
-        documents.files.push(newFile)
-      }
-
-      console.log(documents) */
+      // Validate input
+      // ToDo...
 
       // Insert asset into DB
       let db = await Mongo.getDB()
-      await db.collection('assets').insertOne(asset)
+      await db.collection('assets').updateOne(
+        { _id: ObjectId(assetId) },
+        {
+          $set: { 'ObjectIdentification': newObjectIdentification },
+          $currentDate: { lastModified: true }
+        }
+      )
 
       // Create log
       var log = {
         time: today,
         action: 'Insert asset',
-        objectId: asset.ObjectIdentification.title,
+        objectId: assetId,
         userId: decodedToken.newUserToken2.username,
         userName: decodedToken.newUserToken2.name
       }
       await db.collection('logs').insertOne(log)
 
-      return 'Inserted new asset with title: ' + asset.title
+      return 'Edited asset Object Identification with _id: ' + assetId
     }
   })
 }
