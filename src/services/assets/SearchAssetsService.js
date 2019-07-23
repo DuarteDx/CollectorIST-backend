@@ -5,10 +5,10 @@ export default async (params) => {
   let today = new Date()
   let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
   console.log(time + 'GET -> Search assets')
-  // console.log('\n')
-  // console.log('QUERY RECEIVED FROM FRONTEND: ')
-  // console.log(params)
-  // console.log('\n')
+   console.log('\n')
+   console.log('QUERY RECEIVED FROM FRONTEND: ')
+   console.log(params)
+   console.log('\n')
 
   // Convert strings into objects
   const ObjectIdentification = JSON.parse(params.objectIdentification)
@@ -29,8 +29,8 @@ export default async (params) => {
   if (ObjectIdentification.title) {
     query['ObjectIdentification.title'] = { $regex: ObjectIdentification.title, $options: 'i' }
   }
-  if (ObjectIdentification.optionalId) {
-    query['ObjectIdentification.optionalId'] = ObjectIdentification.optionalId
+  if (ObjectIdentification.optionalIds) {
+    query['ObjectIdentification.optionalIds'] = { $all: ObjectIdentification.optionalIds }
   }
   if (ObjectDescription.category) {
     query['ObjectDescription.category'] = ObjectDescription.category
