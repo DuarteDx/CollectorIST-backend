@@ -10,7 +10,7 @@ export default async (token, assetId) => {
     } else {
       var decodedToken = jwtDecode(token)
       console.log(decodedToken)
-      if (!decodedToken.newUserToken2.role.admin) {
+      if (!decodedToken.newUserToken2.role.admin && !decodedToken.newUserToken2.role.editor) {
         return 'You do not have permissions to perform this action'
       }
 

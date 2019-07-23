@@ -9,7 +9,7 @@ export const plugin = {
   route: '/api/v1/assets',
   register: function (server, options) {
     server.route({
-      path: '/object-identification/{token}',
+      path: '/object-identification/optional-id',
       method: 'GET',
       ...GetObjectIdentificationConfigController
     })

@@ -15,6 +15,8 @@ export default async (params) => {
   const ObjectDescription = JSON.parse(params.objectDescription)
   const ObjectLocation = JSON.parse(params.objectLocation)
   const ObjectHistory = JSON.parse(params.objectHistory)
+  const ObjectCollection = JSON.parse(params.objectCollection)
+  console.log(ObjectCollection.collection)
 
   // Convert strings into numbers
   const nResultsPerPage = parseInt(params.nResultsPerPage)
@@ -50,17 +52,20 @@ export default async (params) => {
       query['ObjectLocation.usual.address.name'] = ObjectLocation.address.name
     }
   }
+  if (ObjectCollection.collection) {
+    query['ObjectCollection.collection'] = ObjectCollection.collection
+  }
 
-  // console.log('MONGODB QUERY: ')
-  // console.log(query)
-  // console.log('\n')
+  console.log('MONGODB QUERY: ')
+  console.log(query)
+  console.log('\n')
 
   // Fetch data from DB
   const db = await Mongo.getDB()
   const resultsCount = await db.collection('assets').find({ ...query }).count()
   const assets = await db.collection('assets').find({ ...query }).skip((currentPage - 1) * nResultsPerPage).limit(nResultsPerPage).toArray()
-  // console.log('ASSETS FOUND: ')
-  // console.log(assets)
+  console.log('ASSETS FOUND: ')
+  console.log(assets)
   if (!assets) {
     return 'No assets match the given search params!'
   }
