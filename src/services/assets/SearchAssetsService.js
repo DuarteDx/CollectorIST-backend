@@ -5,16 +5,18 @@ export default async (params) => {
   let today = new Date()
   let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
   console.log(time + 'GET -> Search assets')
-  console.log('\n')
-  console.log('QUERY RECEIVED FROM FRONTEND: ')
-  console.log(params)
-  console.log('\n')
+   console.log('\n')
+   console.log('QUERY RECEIVED FROM FRONTEND: ')
+   console.log(params)
+   console.log('\n')
 
   // Convert strings into objects
   const ObjectIdentification = JSON.parse(params.objectIdentification)
   const ObjectDescription = JSON.parse(params.objectDescription)
   const ObjectLocation = JSON.parse(params.objectLocation)
   const ObjectHistory = JSON.parse(params.objectHistory)
+  const ObjectCollection = JSON.parse(params.objectCollection)
+  console.log(ObjectCollection.collection)
 
   // Convert strings into numbers
   const nResultsPerPage = parseInt(params.nResultsPerPage)
@@ -27,8 +29,8 @@ export default async (params) => {
   if (ObjectIdentification.title) {
     query['ObjectIdentification.title'] = { $regex: ObjectIdentification.title, $options: 'i' }
   }
-  if (ObjectIdentification.optionalId) {
-    query['ObjectIdentification.optionalId'] = ObjectIdentification.optionalId
+  if (ObjectIdentification.optionalIds) {
+    query['ObjectIdentification.optionalIds'] = { $all: ObjectIdentification.optionalIds }
   }
   if (ObjectDescription.category) {
     query['ObjectDescription.category'] = ObjectDescription.category
@@ -49,6 +51,9 @@ export default async (params) => {
     if (ObjectLocation.address.name) {
       query['ObjectLocation.usual.address.name'] = ObjectLocation.address.name
     }
+  }
+  if (ObjectCollection.collection) {
+    query['ObjectCollection.collection'] = ObjectCollection.collection
   }
 
   console.log('MONGODB QUERY: ')

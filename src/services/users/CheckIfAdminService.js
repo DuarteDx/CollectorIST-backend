@@ -1,5 +1,4 @@
-import { Mongo, errorWithKey } from 'porg'
-import NormalizeObject from '@/schemas/NormalizeObject'
+import { Mongo } from 'porg'
 import jwtDecode from 'jwt-decode'
 const jwt = require('jsonwebtoken')
 
@@ -16,7 +15,7 @@ export default async (token) => {
       console.log(time + ' GET -> Is user admin? (' + username + ')')
 
       // Fetch data from DB
-      const db = await Mongo.getDB()
+      let db = await Mongo.getDB()
       const user = await db.collection('users').findOne({ 'username': username })
 
       if (user.role.admin) {

@@ -4,11 +4,11 @@ export default async () => {
   // Console output
   let today = new Date()
   let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-  console.log(time + ' GET -> List of optional ids (objectIdentification)')
+  console.log(time + ' GET -> List of collections (objectCollection)')
 
   // Get config from DB
   let db = await Mongo.getDB()
-  const document = await db.collection('modules').findOne({ 'moduleName': 'objectIdentification' })
+  const document = await db.collection('modules').findOne({ 'moduleName': 'objectCollection' })
 
-  return document.optionalId.values
+  return document.collection.values
 }

@@ -1,7 +1,7 @@
 import GetObjectIdentificationConfigService from '@/services/components/objectIdentification/GetObjectIdentificationConfigService'
 
 const handler = async (request, h) => {
-  return GetObjectIdentificationConfigService(request.params.token)
+  return GetObjectIdentificationConfigService()
 }
 
 const config = {
