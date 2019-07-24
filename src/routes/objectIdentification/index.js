@@ -2,6 +2,7 @@ import EditObjectIdentificationController from './controllers/EditObjectIdentifi
 import SearchObjectIdentificationController from './controllers/SearchObjectIdentificationController'
 import ConfigureObjectIdentificationController from './controllers/ConfigureObjectIdentificationController'
 import GetObjectIdentificationConfigController from './controllers/GetObjectIdentificationConfigController'
+import ConfigureDeleteObjectIdentificationController from './controllers/ConfigureDeleteObjectIdentificationController'
 
 export const plugin = {
   name: 'object-identification-plugin',
@@ -30,6 +31,12 @@ export const plugin = {
       path: '/config/object-identification/{token}',
       method: 'PUT',
       ...ConfigureObjectIdentificationController
+    })
+
+    server.route({
+      path: '/object-identification/optional-id/{token}',
+      method: 'DELETE',
+      ...ConfigureDeleteObjectIdentificationController
     })
   }
 }

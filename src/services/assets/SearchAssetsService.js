@@ -16,7 +16,6 @@ export default async (params) => {
   const ObjectLocation = JSON.parse(params.objectLocation)
   const ObjectHistory = JSON.parse(params.objectHistory)
   const ObjectCollection = JSON.parse(params.objectCollection)
-  console.log(ObjectCollection.collection)
 
   // Convert strings into numbers
   const nResultsPerPage = parseInt(params.nResultsPerPage)
@@ -30,7 +29,9 @@ export default async (params) => {
     query['ObjectIdentification.title'] = { $regex: ObjectIdentification.title, $options: 'i' }
   }
   if (ObjectIdentification.optionalIds) {
-    query['ObjectIdentification.optionalIds'] = { $all: ObjectIdentification.optionalIds }
+    if (ObjectIdentification.optionalIds.length > 0) {
+      query['ObjectIdentification.optionalIds'] = { $all: ObjectIdentification.optionalIds }
+    }
   }
   if (ObjectDescription.category) {
     query['ObjectDescription.category'] = ObjectDescription.category
