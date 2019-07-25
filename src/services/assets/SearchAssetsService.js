@@ -34,7 +34,7 @@ export default async (params) => {
     }
   }
   if (ObjectDescription.category) {
-    query['ObjectDescription.category'] = ObjectDescription.category
+    query['ObjectDescription.category'] = { $all: [ObjectDescription.category] }
   }
   if (Object.keys(ObjectLocation).length > 0) {
     if (ObjectLocation.istSpace.room) {
