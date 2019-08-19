@@ -5,7 +5,7 @@ const handler = async (request, h) => {
 }
 
 const config = {
-  description: 'Configure object identification from asset',
+  description: 'Add optional id',
   plugins: {
     'porg-auth': {
       type: 'no-auth'

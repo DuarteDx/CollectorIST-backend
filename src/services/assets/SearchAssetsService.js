@@ -5,18 +5,21 @@ export default async (params) => {
   let today = new Date()
   let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
   console.log(time + 'GET -> Search assets')
-   console.log('\n')
-   console.log('QUERY RECEIVED FROM FRONTEND: ')
-   console.log(params)
-   console.log('\n')
+  console.log('\n')
+  console.log('QUERY RECEIVED FROM FRONTEND: ')
+  console.log(params)
+  console.log('\n')
 
   // Convert strings into objects
+  // General modules
   const ObjectIdentification = JSON.parse(params.objectIdentification)
   const ObjectDescription = JSON.parse(params.objectDescription)
   const ObjectLocation = JSON.parse(params.objectLocation)
   const ObjectHistory = JSON.parse(params.objectHistory)
   const ObjectCollection = JSON.parse(params.objectCollection)
-  console.log(ObjectCollection.collection)
+  // Specific modules
+  if (params.pinturas) { var Pinturas = JSON.parse(params.pinturas) }
+  if (params.gravuras) { var Gravuras = JSON.parse(params.gravuras) }
 
   // Convert strings into numbers
   const nResultsPerPage = parseInt(params.nResultsPerPage)
@@ -26,15 +29,21 @@ export default async (params) => {
   var query = {}
 
   // Add params to query if they are not null
+  // GENERAL MODULES
+  // OBJECT IDENTIFICATION
   if (ObjectIdentification.title) {
     query['ObjectIdentification.title'] = { $regex: ObjectIdentification.title, $options: 'i' }
   }
   if (ObjectIdentification.optionalIds) {
-    query['ObjectIdentification.optionalIds'] = { $all: ObjectIdentification.optionalIds }
+    if (ObjectIdentification.optionalIds.length > 0) {
+      query['ObjectIdentification.optionalIds'] = { $all: ObjectIdentification.optionalIds }
+    }
   }
+  // OBJECT DESCRIPTION
   if (ObjectDescription.category) {
-    query['ObjectDescription.category'] = ObjectDescription.category
+    query['ObjectDescription.category'] = { $all: [ObjectDescription.category] }
   }
+  // OBJECT LOCATION
   if (Object.keys(ObjectLocation).length > 0) {
     if (ObjectLocation.istSpace.room) {
       query['ObjectLocation.usual.istSpace.room'] = ObjectLocation.istSpace.room
@@ -52,8 +61,42 @@ export default async (params) => {
       query['ObjectLocation.usual.address.name'] = ObjectLocation.address.name
     }
   }
+  // OBJECT COLLECTION
   if (ObjectCollection.collection) {
     query['ObjectCollection.collection'] = ObjectCollection.collection
+  }
+  // SPECIFIC MODULES
+  // PINTURAS
+  if (params.pinturas) {
+    if (Object.keys(Pinturas).length > 0) {
+      if (Pinturas.author) {
+        query['pinturas.author'] = Pinturas.author
+      }
+      if (Pinturas.year) {
+        query['pinturas.year'] = Pinturas.year
+      }
+      if (Pinturas.materia.length) {
+        console.log(Pinturas.materia)
+        query['pinturas.materia'] = { $all: [Pinturas.materia] }
+      }
+      if (Pinturas.suporte) {
+        query['pinturas.suporte'] = Pinturas.suporte
+      }
+      if (Pinturas.tecnica) {
+        query['pinturas.tecnica'] = Pinturas.tecnica
+      }
+    }
+  }
+  // GRAVURAS
+  if (params.gravuras) {
+    if (Object.keys(Gravuras).length > 0) {
+      if (Gravuras.amountOfCopies) {
+        query['gravuras.amountOfCopies'] = Gravuras.amountOfCopies
+      }
+      if (Gravuras.copyNumber) {
+        query['gravuras.copyNumber'] = Gravuras.copyNumber
+      }
+    }
   }
 
   console.log('MONGODB QUERY: ')
