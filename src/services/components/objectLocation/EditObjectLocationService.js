@@ -23,6 +23,23 @@ export default async (token, assetId, newObjectLocation) => {
 
       // Insert asset into DB
       let db = await Mongo.getDB()
+
+      let oldAsset = await db.collection('assets').findOne(
+        { _id: ObjectId(assetId) }
+      )
+      oldAsset.ObjectLocation['insertionDate'] = today
+      console.log(oldAsset.ObjectLocation)
+      // If it has no previous locations
+      if (!oldAsset.ObjectLocation.history) {
+        newObjectLocation['history'] = [oldAsset.ObjectLocation]
+      } else {
+      // If it has previous locations
+        var tempHistory = oldAsset.ObjectLocation.history
+        delete oldAsset.ObjectLocation.history
+        tempHistory.push(oldAsset.ObjectLocation)
+        newObjectLocation['history'] = tempHistory
+      }
+
       await db.collection('assets').updateOne(
         { _id: ObjectId(assetId) },
         {
