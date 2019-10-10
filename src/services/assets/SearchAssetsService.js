@@ -65,6 +65,22 @@ export default async (params) => {
   if (ObjectCollection.collection) {
     query['ObjectCollection.collection'] = ObjectCollection.collection
   }
+
+  // OBJECT HISTORY
+  if (Object.keys(ObjectHistory).length > 0) {
+    if (ObjectHistory.initial) {
+      query['ObjectHistory.initial'] = { $regex: ObjectHistory.initial, $options: 'i' }
+    }
+    if (ObjectHistory.end) {
+      query['ObjectHistory.end'] = { $regex: ObjectHistory.end, $options: 'i' }
+    }
+    if (ObjectHistory.local) {
+      query['ObjectHistory.local'] = { $regex: ObjectHistory.local, $options: 'i' }
+    }
+    if (ObjectHistory.activity) {
+      query['ObjectHistory.activity'] = { $regex: ObjectHistory.activity, $options: 'i' }
+    }
+  }
   // SPECIFIC MODULES
   // PINTURAS
   if (params.pinturas) {

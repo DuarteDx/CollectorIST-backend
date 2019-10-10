@@ -1,7 +1,7 @@
 import EditObjectHistoryService from '@/services/components/objectHistory/EditObjectHistoryService'
 
 const handler = async (request, h) => {
-  return EditObjectHistoryService(request.params.token, request.payload)
+  return EditObjectHistoryService(request.params.token, request.params.id, request.payload)
 }
 
 const config = {
